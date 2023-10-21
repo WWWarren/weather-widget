@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { City }  from 'country-state-city';
 
-const SearchBar = () => {
+const SearchBar = ({ getCity }) => {
     const [query, setQuery] = useState();
     const [cities, setCities] = useState();
 
@@ -12,22 +12,26 @@ const SearchBar = () => {
     }, [])
 
     useEffect(() => {
-        if (cities) {
-            console.log(query, cities)
+        if (cities && query) {
             const filterCities = cities.total.filter(c => {
                 const lowercaseCity = c.name.toLowerCase();
                 return lowercaseCity.startsWith(query.toLowerCase());
             });
             // reduces list of countries to 15 to avoid massive list filling up the page
             const reduceCities = filterCities.slice(0, 14);
-            console.log(reduceCities);
 
             setCities({...cities, active: reduceCities});
         }
     }, [query])
 
-    console.log(query, cities);
+    // Pass the city selected via the search bar up to the top level to be used in the weather widget
+    function returnCity(data) {
+        getCity(data);
+        setCities({...cities, active: null});
+        setQuery('');
+    }
 
+    console.log(cities);
     if (cities) {
         return (
             <div className="max-w-screen-md w-full grid grid-cols-1 justify-items-center mt-10 relative">
@@ -37,9 +41,15 @@ const SearchBar = () => {
                 </div>
                 {
                     cities.active && 
-                    <div className="max-w-screen-md w-full bg-white text-black mt-3 rounded shadow-lg divide-y divide-light-grey cursor-pointer">
+                    <div className="max-w-screen-md w-full bg-white text-black mt-3 rounded shadow-lg divide-y divide-light-grey cursor-pointer absolute top-full">
                         {cities.active.map((c, i) => (
-                            <div key={i} className="p-3">{c.name} {c.countryCode === 'US' ? `(${c.stateCode}) ` : ''}({c.countryCode})</div>
+                            <div 
+                                key={i} 
+                                className="p-3"
+                                onClick={() => returnCity({city: c.name, state: c.stateCode, country: c.countryCode})}
+                            >
+                                {c.name} {c.countryCode === 'US' ? `(${c.stateCode}) ` : ''}({c.countryCode})
+                            </div>
                         ))}
                     </div>
                 }
