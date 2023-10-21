@@ -3,41 +3,49 @@ import PropTypes from 'prop-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { City }  from 'country-state-city';
 
-const SearchBar = ({ getCity }) => {
+const SearchBar = () => {
     const [query, setQuery] = useState();
-    const [cities, setCities] = useState({ total: [], active: [] });
+    const [cities, setCities] = useState();
 
     useEffect(() => {
-        const getCities = City.getAllCities();
-        console.log(getCities);
-        setCities({...cities, total: getCities});
+        setCities({total: City.getAllCities()});
     }, [])
 
     useEffect(() => {
-        console.log(query, cities)
-        const filterCities = cities.total.filter(c => {
-            const lowercaseCity = c.name.toLowerCase();
-            return lowercaseCity.startsWith(query.toLowerCase());
-        });
-        console.log(filterCities);
-        setCities({...cities, active: filterCities});
+        if (cities) {
+            console.log(query, cities)
+            const filterCities = cities.total.filter(c => {
+                const lowercaseCity = c.name.toLowerCase();
+                return lowercaseCity.startsWith(query.toLowerCase());
+            });
+            // reduces list of countries to 15 to avoid massive list filling up the page
+            const reduceCities = filterCities.slice(0, 14);
+            console.log(reduceCities);
+
+            setCities({...cities, active: reduceCities});
+        }
     }, [query])
 
-    console.log(cities);
+    console.log(query, cities);
 
-    return (
-        <div className="max-w-screen-md w-full grid grid-cols-1 justify-items-center mt-10 relative">
-            <div className="max-w-screen-md w-full">
-                <MagnifyingGlassIcon className="h-6 w-6 absolute text-green left-2 top-3" />
-                <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for City" className="rounded p-3 pl-12 w-full shadow-lg text-black" />
+    if (cities) {
+        return (
+            <div className="max-w-screen-md w-full grid grid-cols-1 justify-items-center mt-10 relative">
+                <div className="max-w-screen-md w-full">
+                    <MagnifyingGlassIcon className="h-6 w-6 absolute text-green left-2 top-3" />
+                    <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search for City" className="rounded p-3 pl-12 w-full shadow-lg text-black" />
+                </div>
+                {
+                    cities.active && 
+                    <div className="max-w-screen-md w-full bg-white text-black mt-3 rounded shadow-lg divide-y divide-light-grey cursor-pointer">
+                        {cities.active.map((c, i) => (
+                            <div key={i} className="p-3">{c.name} {c.countryCode === 'US' ? `(${c.stateCode}) ` : ''}({c.countryCode})</div>
+                        ))}
+                    </div>
+                }
             </div>
-            <div className="max-w-screen-md w-full bg-white mt-3">
-                {cities.active.map((c, i) => (
-                    <div key={i}>{c.name} ({c.stateCode})</div>
-                ))}
-            </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default SearchBar;
