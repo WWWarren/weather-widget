@@ -26,7 +26,17 @@ const SearchBar = ({ getCity }) => {
 
     // Pass the city selected via the search bar up to the top level to be used in the weather widget
     function returnCity(data) {
-        getCity(data);
+        // Create object for city to use in Weather API Call
+        const obj = {
+            city: data.name, 
+            state: data.stateCode, 
+            country: data.countryCode,
+            lat: data.latitude,
+            lon: data.longitude
+        }
+        getCity(obj);
+
+        // Remove city from search bar
         setCities({...cities, active: null});
         setQuery('');
     }
@@ -46,7 +56,7 @@ const SearchBar = ({ getCity }) => {
                             <div 
                                 key={i} 
                                 className="p-3"
-                                onClick={() => returnCity({city: c.name, state: c.stateCode, country: c.countryCode})}
+                                onClick={() => returnCity(c)}
                             >
                                 {c.name} {c.countryCode === 'US' ? `(${c.stateCode}) ` : ''}({c.countryCode})
                             </div>

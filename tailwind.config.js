@@ -14,8 +14,14 @@ export default {
       'light-grey': '#bbbbbb',
       'grey': '#aaaaaa',
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        'jost': ['Jost', 'Inter', 'sans-serif']
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated'),
+  ]
 }
 
