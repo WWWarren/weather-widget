@@ -32,6 +32,12 @@ const MainCard = ({ city, weather }) => {
         return background
     }
 
+    function captailiseDescription(description) {
+        // Use Regex to captailise every word in the description
+        const words = description.replace(/\b\w/g, l => l.toUpperCase());
+        return words;
+    }
+
     return (
         <div className={`
             px-12 h-72 flex items-center justify-between rounded-t ${generateWeatherConditionBackground(weather.weather[0].main)}
@@ -39,7 +45,7 @@ const MainCard = ({ city, weather }) => {
             <div>
                 <h1 className="text-4xl font-bold mb-1">{city.city}</h1>
                 <h2 className="text-2xl font-semibold mb-4">{city.country}</h2>
-                <div className="flex items-center mb-2"><WiCloud size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.weather[0].description}</span></div>
+                <div className="flex items-center mb-2"><WiCloud size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{captailiseDescription(weather.weather[0].description)}</span></div>
                 <div className="flex items-center mb-2"><WiThermometer size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.main.temp}</span></div>
                 <div className="flex items-center mb-2"><WiHumidity size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.main.humidity}%</span></div>
                 <div className="flex items-center"><WiStrongWind size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.wind.speed}m/s {weather.wind.deg}deg</span></div>

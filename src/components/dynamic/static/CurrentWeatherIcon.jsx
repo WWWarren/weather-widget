@@ -11,7 +11,7 @@ function getCorrectIcon(param) {
         case 'Snow':
             return <WiSnow size={200} color='#ddd' />;
         case 'Clear':
-            return <WiDaySunny size={200} color='#ddd' />;
+            return <WiDaySunny size={200} color='#fec013' />;
         case 'Clouds':
             return <WiCloudy size={200} color='#ddd' />;
         default:
