@@ -41,7 +41,6 @@ const SearchBar = ({ getCity }) => {
         setQuery('');
     }
 
-    console.log(cities);
     if (cities) {
         return (
             <div className="max-w-screen-md w-full grid grid-cols-1 justify-items-center mt-10 relative">

@@ -8,7 +8,6 @@ import './index.css'
 function App() {
   const [city, setCity] = useState()
 
-  console.log(city);
   return (
     <>
       <h1 className="text-5xl font-bold text-center">Weather Widget</h1>
