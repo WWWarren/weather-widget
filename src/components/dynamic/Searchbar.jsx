@@ -51,7 +51,7 @@ const SearchBar = ({ getCity }) => {
                 </div>
                 {
                     cities.active && 
-                    <div className="max-w-screen-md w-full bg-white text-black mt-3 rounded shadow-lg divide-y divide-light-grey cursor-pointer absolute top-full">
+                    <div className="max-w-screen-md w-full bg-white text-black mt-3 rounded shadow-lg divide-y divide-light-grey cursor-pointer absolute top-full z-10">
                         {cities.active.map((c, i) => (
                             <div 
                                 key={i} 
