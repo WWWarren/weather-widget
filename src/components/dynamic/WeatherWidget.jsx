@@ -10,15 +10,14 @@ const WeatherWidget = ({ city }) => {
     const [weather, setWeather] = useState();
     const [units, setUnit] = useState('metric');
 
+    async function getWeather() {
+        const data = await getWeatherData({...city, units});
+        setWeather(data);
+    };
+
     // Call API when the city is updated or unit is changed
     useEffect(() => {
-        const getWeather = async () => {
-            const data = await getWeatherData({...city, units});
-            setWeather(data);
-        };
-    
         getWeather();
-
         return () => {};
     }, [city, units])
 
@@ -29,7 +28,7 @@ const WeatherWidget = ({ city }) => {
         return (
             <div className="mt-6 max-w-screen-md w-full">
                 <div className="bg-white rounded text-black shadow-lg animate-fade-down animate-once animate-ease-in-out">
-                    <MainCard city={city} weather={weather.list[0]} unit={units} changeUnit={() => setUnit(units === 'metric' ? 'imperial' : 'metric')} />
+                    <MainCard city={city} weather={weather.list[0]} unit={units} refreshWidget={() => getWeather({...city, units})} changeUnit={() => setUnit(units === 'metric' ? 'imperial' : 'metric')} />
                     <div className="grid lg:grid-cols-5 divide-y lg:divide-x divide-light-grey border-t-2 border-light-grey">
                         {
                             forecastWeather.map((f, i) => (

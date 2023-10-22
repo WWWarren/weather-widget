@@ -1,10 +1,10 @@
 import { WiThermometer, WiHumidity, WiCloud, WiStrongWind } from "weather-icons-react";
-import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowsRightLeftIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 
 import CurrentWeatherIcon from "./CurrentWeatherIcon";
 
-const MainCard = ({ city, weather, unit, changeUnit }) => {
+const MainCard = ({ city, weather, unit, changeUnit, refreshWidget }) => {
     function generateWeatherConditionBackground(params) {
         let background;
         switch(params) {
@@ -43,14 +43,22 @@ const MainCard = ({ city, weather, unit, changeUnit }) => {
         <div className={`
             relative px-12 h-72 flex items-center justify-between rounded-t ${generateWeatherConditionBackground(weather.weather[0].main)}
         `}>
-            <button 
-                className="absolute top-0 right-0 bg-green text-white font-bold p-1 w-16 rounded mt-2 mr-2 flex items-center justify-center"
-                onClick={changeUnit}
-            >
-                {unit === 'metric' ? `°C` : `°F`}
-                <ArrowsRightLeftIcon className="h-4 w-4 mx-1" />
-                {unit === 'metric' ? `°F` : `°C`}
-            </button>
+            <div className="absolute top-0 right-0 mt-2 mr-2 flex items-center">
+                <button 
+                    className="bg-green text-white font-bold p-1 px-2 h-8 rounded flex items-center justify-center mr-2"
+                    onClick={refreshWidget}
+                >
+                    <ArrowPathIcon className="h-4 w-4 mx-1" />
+                </button>
+                <button 
+                    className="bg-green text-white font-bold p-1 px-2 h-8 rounded flex items-center justify-center"
+                    onClick={changeUnit}
+                >
+                    {unit === 'metric' ? `°C` : `°F`}
+                    <ArrowsRightLeftIcon className="h-4 w-4 mx-1" />
+                    {unit === 'metric' ? `°F` : `°C`}
+                </button>
+            </div>
             <div>
                 <h1 className="text-4xl font-bold mb-1">{city.city}</h1>
                 <h2 className="text-2xl font-semibold mb-4">{city.country}</h2>
@@ -72,4 +80,5 @@ MainCard.propTypes = {
     weather: PropTypes.object,
     unit: PropTypes.string,
     changeUnit: PropTypes.func,
+    refreshWidget: PropTypes.func,
 };
