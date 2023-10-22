@@ -30,7 +30,7 @@ const WeatherWidget = ({ city }) => {
             <div className="mt-6 max-w-screen-md w-full">
                 <div className="bg-white rounded text-black shadow-lg animate-fade-down animate-once animate-ease-in-out">
                     <MainCard city={city} weather={weather.list[0]} unit={units} changeUnit={() => setUnit(units === 'metric' ? 'imperial' : 'metric')} />
-                    <div className="grid grid-cols-5 divide-x divide-light-grey border-t-2 border-light-grey">
+                    <div className="grid lg:grid-cols-5 divide-y lg:divide-x divide-light-grey border-t-2 border-light-grey">
                         {
                             forecastWeather.map((f, i) => (
                                 <SubCard segment={f} key={i} unit={units} />

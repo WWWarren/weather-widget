@@ -59,7 +59,7 @@ const MainCard = ({ city, weather, unit, changeUnit }) => {
                 <div className="flex items-center mb-2"><WiHumidity size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.main.humidity}%</span></div>
                 <div className="flex items-center"><WiStrongWind size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.wind.speed}{unit === 'metric' ? 'm/s' : 'mph'} {weather.wind.deg}deg</span></div>
             </div>
-            <div className="pr-12">
+            <div className="pr-12 hidden sm:inline">
                 <CurrentWeatherIcon conditions={weather.weather[0].main} />
             </div>
         </div>
