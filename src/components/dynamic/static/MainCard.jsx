@@ -61,7 +61,7 @@ const MainCard = ({ city, weather, unit, changeUnit, refreshWidget }) => {
             </div>
             <div>
                 <h1 className="text-4xl font-bold mb-1">{city.city}</h1>
-                <h2 className="text-2xl font-semibold mb-4">{city.country}</h2>
+                {city.country && <h2 className="text-2xl font-semibold mb-4">{city.country}</h2>}
                 <div className="flex items-center mb-2"><WiCloud size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{captailiseDescription(weather.weather[0].description)}</span></div>
                 <div className="flex items-center mb-2"><WiThermometer size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.main.temp}{unit === 'metric' ? '°C' : '°F'}</span></div>
                 <div className="flex items-center mb-2"><WiHumidity size={24} color='#aaaaaa' /> <span className="ml-2 leading-4">{weather.main.humidity}%</span></div>
